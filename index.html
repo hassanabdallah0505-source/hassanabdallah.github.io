@@ -116,7 +116,7 @@
       box-shadow: none;
     }
 
-    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px; }
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 12px; }
     .chip{
       font-size: 13px;
       color: var(--muted);
@@ -142,12 +142,7 @@
     }
     .pill:hover{ transform: translateY(-1px); border-color: #5eead4; }
 
-    .section-note{ font-size: 13px; color: var(--muted); margin-top: 10px; }
-
-    /* Content visible by default */
     .reveal{ opacity: 1; transform: none; }
-
-    /* Animate only when JS is running */
     .js .reveal{
       opacity: 0;
       transform: translateY(14px);
@@ -190,10 +185,6 @@
       color: var(--muted);
     }
 
-    .row{
-      display:flex; flex-wrap:wrap; gap: 10px;
-      align-items:center; justify-content: space-between;
-    }
     .badge{
       font-size: 12px;
       padding: 6px 10px;
@@ -201,6 +192,43 @@
       border: 1px solid var(--border);
       background: rgba(11,42,36,.55);
       color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ✅ NEW: clean hero layout */
+    .hero{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-left{
+      display:flex;
+      align-items:center;
+      gap: 18px;
+      flex: 1 1 520px;
+      min-width: 280px;
+    }
+
+    .profile-img{
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(20,184,166,.9);
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,.06);
+    }
+
+    .hero-text h1{ margin-bottom: 6px; }
+    .hero-actions{ margin-top: 8px; }
+
+    @media (max-width: 520px){
+      h1{ font-size: 34px; }
+      .profile-img{ width: 92px; height: 92px; }
+      .btn{ width: 100%; justify-content:center; }
     }
   </style>
 </head>
@@ -225,12 +253,16 @@
   <div class="wrap">
 
     <section id="about" class="card reveal">
-      <div class="row">
-        <div>
-          <h1>Hassan Abdallah</h1>
-          <p class="muted">Full-time Computer Science student (BSc) • London, United Kingdom</p>
+      <div class="hero">
+        <div class="hero-left">
+          <!-- ✅ CHANGE profile.jpg to your real file name -->
+          <img class="profile-img" src="profile.jpg" alt="Hassan Abdallah profile photo" />
+          <div class="hero-text">
+            <h1>Hassan Abdallah</h1>
+            <p class="muted">Full-time Computer Science student (BSc) • London, United Kingdom</p>
+            <span class="badge">Available to learn & grow</span>
+          </div>
         </div>
-        <span class="badge">Available to learn & grow</span>
       </div>
 
       <div class="chips">
@@ -245,13 +277,10 @@
         Motivated to continuously learn and apply skills in real-world environments.
       </p>
 
-      <p>
+      <div class="hero-actions">
         <a class="btn" href="Hassan-Abdallah-CV.pdf" target="_blank" rel="noopener">Download CV (PDF)</a>
         <a class="btn secondary" href="https://www.linkedin.com/in/hassan-abdallah-5248aa334" target="_blank" rel="noopener">View LinkedIn</a>
-      </p>
-
-      <p class="section-note">
-      </p>
+      </div>
     </section>
 
     <div class="grid">
@@ -351,10 +380,8 @@
   <button id="topBtn" class="topbtn" aria-label="Back to top">↑ Top</button>
 
   <script>
-    // Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Reveal on scroll (safe fallback)
     const reveals = document.querySelectorAll(".reveal");
     if ("IntersectionObserver" in window) {
       const io = new IntersectionObserver((entries) => {
@@ -367,7 +394,6 @@
       reveals.forEach(el => el.classList.add("show"));
     }
 
-    // Skills search/filter
     const search = document.getElementById("skillSearch");
     const skills = Array.from(document.querySelectorAll("#skillsWrap .pill"));
     const count = document.getElementById("skillCount");
@@ -391,7 +417,6 @@
     search.addEventListener("input", updateSkillFilter);
     updateSkillFilter();
 
-    // Back to top button
     const topBtn = document.getElementById("topBtn");
     window.addEventListener("scroll", () => {
       topBtn.style.display = window.scrollY > 500 ? "block" : "none";
